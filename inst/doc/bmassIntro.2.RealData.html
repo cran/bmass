@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Michael C Turchin" />
+
+<meta name="date" content="2019-05-16" />
+
+<title>bmass Introduction – Real Data</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">bmass Introduction – Real Data</h1>
+<h4 class="author">Michael C Turchin</h4>
+<h4 class="date">2019-05-16</h4>
+
+
+
+<p>This is an advanced introductory vignette for running <code>bmass</code>. Here, we will use real data and explore multiple components of the <code>bmass()</code> output. Specifically, we will:</p>
+<ul>
+<li>Download our real dataset</li>
+<li>Quality control (QC) &amp; format our dataset</li>
+<li>Run <code>bmass</code></li>
+<li>Access &amp; explore a variety of results</li>
+</ul>
+<p>For a more basic introductory vignette using a smaller, simulated dataset, please see <a href="http://mturchin20.github.io/bmass/articles/bmassIntro.1.SimulatedData.html">here</a>.</p>
+<div id="downloading-globallipids2013" class="section level2">
+<h2>Downloading <code>GlobalLipids2013</code></h2>
+<p>For this vigenette, we will be download and analyze the <code>GlobalLipids2013</code> dataset. To download the necessary files from <a href="http://csg.sph.umich.edu/willer/public/lipids2013/">http://csg.sph.umich.edu/willer/public/lipids2013/</a>, run the following:</p>
+<pre><code>mkdir my-directory/GlobalLipids2013
+cd my-directory/GlobalLipids2013
+
+wget http://csg.sph.umich.edu/abecasis/public/lipids2013/jointGwasMc_LDL.txt.gz
+wget http://csg.sph.umich.edu/abecasis/public/lipids2013/jointGwasMc_HDL.txt.gz
+wget http://csg.sph.umich.edu/abecasis/public/lipids2013/jointGwasMc_TG.txt.gz
+wget http://csg.sph.umich.edu/abecasis/public/lipids2013/jointGwasMc_TC.txt.gz</code></pre>
+</div>
+<div id="formatting-qcing-our-dataset" class="section level2">
+<h2>Formatting &amp; QC’ing our dataset</h2>
+<p>To run bmass, it is recommended that at least a minimal level of QC is performed on the datasets of interest. Additionally, it is important that all the single nucleotide polymorphisms (SNPs) being analyzed are oriented to the same reference allele across all the phenotypes being included. This latter situation is emphasized so that the correct direction of effect is assigned to each phenotype for a given SNP (which is oriented based on reference allele).</p>
+<p>Below is example <code>bash</code> code on how to reformat, conduct some basic QC, and orient the reference alleles on the <code>GlobalLipids2013</code> dataset. First, we will reformat our input datafiles to match the requirements for <code>bmass</code>. <code>bmass</code> expects input files to have the following columns –</p>
+<ul>
+<li>Chr: Chromosome</li>
+<li>BP: Basepair Position</li>
+<li>Marker: Variant ID information, such as a rsID # (should be a unique value for each variant)</li>
+<li>MAF: Minor Allele Frequency</li>
+<li>A1: Reference allele</li>
+<li>A2: AlternativeaAllele</li>
+<li>Direction: Direction of effect size (a column of “+” or “-”)</li>
+<li>pValue: p-Value from univariate GWAS</li>
+<li>N: Sample size</li>
+</ul>
+<p>To create files that match these specifications, we will conduct the following: extract the columns that are needed, orient SNPs to the minor allele, and extract the direction of effect from the provided effect sizes.</p>
+<pre><code>zcat jointGwasMc_HDL.txt.gz | sed &#39;s/:/ /g&#39; | sed &#39;s/chr//g&#39; | awk &#39;{ print $1 &quot;\t&quot; $2 &quot;\t&quot; $5 &quot;\t&quot; $12 &quot;\t&quot; $6 &quot;\t&quot; $7 &quot;\t&quot; $8 &quot;\t&quot; $11 &quot;\t&quot; $10 }&#39; | perl -lane &#39;$F[4] = uc($F[4]); $F[5] = uc($F[5]); if ($F[6] &gt; 0) { $F[6] = &quot;+&quot;; } elsif ($F[6] &lt; 0) { $F[6] = &quot;-&quot;; } else { $F[6] = 0; } print join(&quot;\t&quot;, @F);&#39; | grep -v SNP_hg18 | gzip &gt; jointGwasMc_HDL.formatted.txt.gz 
+
+zcat jointGwasMc_LDL.txt.gz | sed &#39;s/:/ /g&#39; | sed &#39;s/chr//g&#39; | awk &#39;{ print $1 &quot;\t&quot; $2 &quot;\t&quot; $5 &quot;\t&quot; $12 &quot;\t&quot; $6 &quot;\t&quot; $7 &quot;\t&quot; $8 &quot;\t&quot; $11 &quot;\t&quot; $10 }&#39; | perl -lane &#39;$F[4] = uc($F[4]); $F[5] = uc($F[5]); if ($F[6] &gt; 0) { $F[6] = &quot;+&quot;; } elsif ($F[6] &lt; 0) { $F[6] = &quot;-&quot;; } else { $F[6] = 0; } print join(&quot;\t&quot;, @F);&#39; | grep -v SNP_hg18 | gzip &gt; jointGwasMc_LDL.formatted.txt.gz 
+
+zcat jointGwasMc_TG.txt.gz | sed &#39;s/:/ /g&#39; | sed &#39;s/chr//g&#39; | awk &#39;{ print $1 &quot;\t&quot; $2 &quot;\t&quot; $5 &quot;\t&quot; $12 &quot;\t&quot; $6 &quot;\t&quot; $7 &quot;\t&quot; $8 &quot;\t&quot; $11 &quot;\t&quot; $10 }&#39; | perl -lane &#39;$F[4] = uc($F[4]); $F[5] = uc($F[5]); if ($F[6] &gt; 0) { $F[6] = &quot;+&quot;; } elsif ($F[6] &lt; 0) { $F[6] = &quot;-&quot;; } else { $F[6] = 0; } print join(&quot;\t&quot;, @F);&#39; | grep -v SNP_hg18 | gzip &gt; jointGwasMc_TG.formatted.txt.gz 
+
+zcat jointGwasMc_TC.txt.gz | sed &#39;s/:/ /g&#39; | sed &#39;s/chr//g&#39; | awk &#39;{ print $1 &quot;\t&quot; $2 &quot;\t&quot; $5 &quot;\t&quot; $12 &quot;\t&quot; $6 &quot;\t&quot; $7 &quot;\t&quot; $8 &quot;\t&quot; $11 &quot;\t&quot; $10 }&#39; | perl -lane &#39;$F[4] = uc($F[4]); $F[5] = uc($F[5]); if ($F[6] &gt; 0) { $F[6] = &quot;+&quot;; } elsif ($F[6] &lt; 0) { $F[6] = &quot;-&quot;; } else { $F[6] = 0; } print join(&quot;\t&quot;, @F);&#39; | grep -v SNP_hg18 | gzip &gt; jointGwasMc_TC.formatted.txt.gz </code></pre>
+<p>Next, we will conduct some basic QC. These steps include: remove SNPs that have duplicate entries, that do not have entries in every field, do not have MAF information, that are fixed (MAF = 0), are rare (MAF &lt; .01), have sample sample sizes &lt; 50000, and have effect sizes of 0 (ie direction of effect is indeterminable). We will also orient each SNP/phenotype file to its respective minor allele.</p>
+<pre><code>join &lt;(zcat jointGwasMc_HDL.formatted.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 }&#39; | grep -v hg18 | sort | uniq -u) &lt;(zcat jointGwasMc_HDL.formatted.txt.gz | grep -v hg | grep -v ^rs | grep -v NA | perl -lane &#39;if ($F[3] &gt; .5) { ($F[4], $F[5]) = ($F[5], $F[4]); if ($F[6] eq &quot;+&quot;) { $F[6] = &quot;-&quot;; } elsif ($F[6] eq &quot;-&quot;) { $F[6] = &quot;+&quot;; } else { $F[6] = 0; } $F[3] = 1 - $F[3]; } if ($F[6] ne &quot;0&quot;) { if ($F[3] &gt; .01) { if ($F[8] &gt;= 50000) { print join(&quot;\t&quot;, @F); } } }&#39; | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $0 }&#39; | sort -k 1,1) | perl -lane &#39;print join(&quot;\t&quot;, @F[1..$#F]);&#39; | cat &lt;(echo -e &quot;Chr\tBP\tMarker\tMAF\tA1\tA2\tDirection\tpValue\tN&quot;) - | gzip &gt; jointGwasMc_HDL.formatted.QCed.txt.gz 
+
+join &lt;(zcat jointGwasMc_LDL.formatted.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 }&#39; | grep -v hg18 | sort | uniq -u) &lt;(zcat jointGwasMc_LDL.formatted.txt.gz | grep -v hg | grep -v ^rs | grep -v NA | perl -lane &#39;if ($F[3] &gt; .5) { ($F[4], $F[5]) = ($F[5], $F[4]); if ($F[6] eq &quot;+&quot;) { $F[6] = &quot;-&quot;; } elsif ($F[6] eq &quot;-&quot;) { $F[6] = &quot;+&quot;; } else { $F[6] = 0; } $F[3] = 1 - $F[3]; } if ($F[6] ne &quot;0&quot;) { if ($F[3] &gt; .01) { if ($F[8] &gt;= 50000) { print join(&quot;\t&quot;, @F); } } }&#39; | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $0 }&#39; | sort -k 1,1) | perl -lane &#39;print join(&quot;\t&quot;, @F[1..$#F]);&#39; | gzip &gt; jointGwasMc_LDL.formatted.QCed.txt.gz 
+
+join &lt;(zcat jointGwasMc_TG.formatted.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 }&#39; | grep -v hg18 | sort | uniq -u) &lt;(zcat jointGwasMc_TG.formatted.txt.gz | grep -v hg | grep -v ^rs | grep -v NA | perl -lane &#39;if ($F[3] &gt; .5) { ($F[4], $F[5]) = ($F[5], $F[4]); if ($F[6] eq &quot;+&quot;) { $F[6] = &quot;-&quot;; } elsif ($F[6] eq &quot;-&quot;) { $F[6] = &quot;+&quot;; } else { $F[6] = 0; } $F[3] = 1 - $F[3]; } if ($F[6] ne &quot;0&quot;) { if ($F[3] &gt; .01) { if ($F[8] &gt;= 50000) { print join(&quot;\t&quot;, @F); } } }&#39; | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $0 }&#39; | sort -k 1,1) | perl -lane &#39;print join(&quot;\t&quot;, @F[1..$#F]);&#39; | gzip &gt; jointGwasMc_TG.formatted.QCed.txt.gz 
+
+join &lt;(zcat jointGwasMc_TC.formatted.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 }&#39; | grep -v hg18 | sort | uniq -u) &lt;(zcat jointGwasMc_TC.formatted.txt.gz | grep -v hg | grep -v ^rs | grep -v NA | perl -lane &#39;if ($F[3] &gt; .5) { ($F[4], $F[5]) = ($F[5], $F[4]); if ($F[6] eq &quot;+&quot;) { $F[6] = &quot;-&quot;; } elsif ($F[6] eq &quot;-&quot;) { $F[6] = &quot;+&quot;; } else { $F[6] = 0; } $F[3] = 1 - $F[3]; } if ($F[6] ne &quot;0&quot;) { if ($F[3] &gt; .01) { if ($F[8] &gt;= 50000) { print join(&quot;\t&quot;, @F); } } }&#39; | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $0 }&#39; | sort -k 1,1) | perl -lane &#39;print join(&quot;\t&quot;, @F[1..$#F]);&#39; | gzip &gt; jointGwasMc_TC.formatted.QCed.txt.gz </code></pre>
+<p>Lastly, we will orient all phenotype files to the HDL minor allele:</p>
+<pre><code>join &lt;(zcat jointGwasMc_HDL.formatted.QCed.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $5 }&#39; | sort -k 1,1) &lt;(zcat jointGwasMc_LDL.formatted.QCed.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $0 }&#39; | sort -k 1,1) | perl -lane &#39;if ($F[1] eq $F[7]) { ($F[6], $F[7]) = ($F[7], $F[6]); if ($F[8] eq &quot;-&quot;) { $F[8] = &quot;+&quot;; } elsif ($F[8] eq &quot;+&quot;) { $F[8] = &quot;-&quot;; } else { print STDERR &quot;Error1 -- direction of effect allele matching&quot;; } } print join(&quot;\t&quot;, @F[2..$#F]);&#39; | cat &lt;(echo -e &quot;Chr\tBP\tMarker\tMAF\tA1\tA2\tDirection\tpValue\tN&quot;) - | gzip &gt; jointGwasMc_LDL.formatted.QCed.HDLMatch.txt.gz
+
+join &lt;(zcat jointGwasMc_HDL.formatted.QCed.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $5 }&#39; | sort -k 1,1) &lt;(zcat jointGwasMc_TG.formatted.QCed.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $0 }&#39; | sort -k 1,1) | perl -lane &#39;if ($F[1] eq $F[7]) { ($F[6], $F[7]) = ($F[7], $F[6]); if ($F[8] eq &quot;-&quot;) { $F[8] = &quot;+&quot;; } elsif ($F[8] eq &quot;+&quot;) { $F[8] = &quot;-&quot;; } else { print STDERR &quot;Error1 -- direction of effect allele matching&quot;; } } print join(&quot;\t&quot;, @F[2..$#F]);&#39; | cat &lt;(echo -e &quot;Chr\tBP\tMarker\tMAF\tA1\tA2\tDirection\tpValue\tN&quot;) - | gzip &gt; jointGwasMc_TG.formatted.QCed.HDLMatch.txt.gz
+
+join &lt;(zcat jointGwasMc_HDL.formatted.QCed.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $5 }&#39; | sort -k 1,1) &lt;(zcat jointGwasMc_TC.formatted.QCed.txt.gz | awk &#39;{ print $1 &quot;_&quot; $2 &quot;\t&quot; $0 }&#39; | sort -k 1,1) | perl -lane &#39;if ($F[1] eq $F[7]) { ($F[6], $F[7]) = ($F[7], $F[6]); if ($F[8] eq &quot;-&quot;) { $F[8] = &quot;+&quot;; } elsif ($F[8] eq &quot;+&quot;) { $F[8] = &quot;-&quot;; } else { print STDERR &quot;Error1 -- direction of effect allele matching&quot;; } } print join(&quot;\t&quot;, @F[2..$#F]);&#39; | cat &lt;(echo -e &quot;Chr\tBP\tMarker\tMAF\tA1\tA2\tDirection\tpValue\tN&quot;) - | gzip &gt; jointGwasMc_TC.formatted.QCed.HDLMatch.txt.gz</code></pre>
+</div>
+<div id="running-bmass" class="section level2">
+<h2>Running <code>bmass</code></h2>
+<p>Now with our four <code>GlobalLipids2013</code> files properly formatted and QCed, we are able to run <code>bmass</code>. To do so, we will also need the list of published univariate GWAS SNPs from the <code>GlobalLipids2013</code> publication (presented as two columns per SNP, chromosome and basepair position) – these have been provided in the <code>data</code> subdirectory (<code>GlobalLipids2013.GWASsnps.txt</code>). To run <code>bmass</code> with our prepared input datafiles and our list of univariate GWAS SNPs, we run the following R code:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">library</span>(<span class="st">&quot;bmass&quot;</span>);</a>
+<a class="sourceLine" id="cb5-2" title="2">HDL &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;jointGwasMc_HDL.formatted.QCed.txt.gz&quot;</span>, <span class="dt">header=</span>T);</a>
+<a class="sourceLine" id="cb5-3" title="3">LDL &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;jointGwasMc_LDL.formatted.QCed.HDLMatch.txt.gz&quot;</span>, <span class="dt">header=</span>T);</a>
+<a class="sourceLine" id="cb5-4" title="4">TG &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;jointGwasMc_TG.formatted.QCed.HDLMatch.txt.gz&quot;</span>, <span class="dt">header=</span>T); </a>
+<a class="sourceLine" id="cb5-5" title="5">TC &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;jointGwasMc_TC.formatted.QCed.HDLMatch.txt.gz&quot;</span>, <span class="dt">header=</span>T);</a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="kw">load</span>(<span class="st">&quot;bmassDirectory/data/GlobalLipids2013.GWASsnps.rda&quot;</span>);</a>
+<a class="sourceLine" id="cb5-7" title="7">Phenotypes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HDL&quot;</span>, <span class="st">&quot;LDL&quot;</span>, <span class="st">&quot;TG&quot;</span>, <span class="st">&quot;TC&quot;</span>);</a>
+<a class="sourceLine" id="cb5-8" title="8">bmassResults &lt;-<span class="st"> </span><span class="kw">bmass</span>(Phenotypes, GlobalLipids2013.GWASsnps);</a></code></pre></div>
+<p>Note once again that to run <code>bmass</code> we supply a vector of phenotype names that also correspond to the variable names referencing each phenotype’s respective data file. Also note that you will see a warning that one or more of the <code>GlobalLipids2013</code> datafiles contains p-values smaller than the threshold at which R can handle converting them into logarthmic scale – this is to be expected.</p>
+</div>
+<div id="accessing-exploring-results" class="section level2">
+<h2>Accessing &amp; exploring results</h2>
+<p><code>bmass</code> returns a list containing multiple areas of information, including separate sublists pertaining to the previous univariate GWAS SNPs used for training the multivariate model priors and the new multivariate SNPs (if any) bmass has idenfitifed as significant. Run <code>summary(bmassResults)</code> and you should see the following:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">summary</span>(bmassResults)</a>
+<a class="sourceLine" id="cb6-2" title="2">                      Length Class  Mode     </a>
+<a class="sourceLine" id="cb6-3" title="3">MarginalSNPs             <span class="dv">3</span>   <span class="op">-</span>none<span class="op">-</span><span class="st"> </span>list     </a>
+<a class="sourceLine" id="cb6-4" title="4">PreviousSNPs             <span class="dv">4</span>   <span class="op">-</span>none<span class="op">-</span><span class="st"> </span>list     </a>
+<a class="sourceLine" id="cb6-5" title="5">NewSNPs                  <span class="dv">3</span>   <span class="op">-</span>none<span class="op">-</span><span class="st"> </span>list     </a>
+<a class="sourceLine" id="cb6-6" title="6">LogFile                 <span class="dv">20</span>   <span class="op">-</span>none<span class="op">-</span><span class="st"> </span>character</a>
+<a class="sourceLine" id="cb6-7" title="7">ZScoresCorMatrix        <span class="dv">16</span>   <span class="op">-</span>none<span class="op">-</span><span class="st"> </span>numeric  </a>
+<a class="sourceLine" id="cb6-8" title="8">Models                 <span class="dv">324</span>   <span class="op">-</span>none<span class="op">-</span><span class="st"> </span>numeric  </a>
+<a class="sourceLine" id="cb6-9" title="9">ModelPriors           <span class="dv">1134</span>   <span class="op">-</span>none<span class="op">-</span><span class="st"> </span>numeric  </a>
+<a class="sourceLine" id="cb6-10" title="10">GWASlogBFMinThreshold    <span class="dv">1</span>   <span class="op">-</span>none<span class="op">-</span><span class="st"> </span>numeric  </a></code></pre></div>
+<p>We will touch on all the above outputs.</p>
+<div id="newsnps" class="section level4">
+<h4>NewSNPs</h4>
+<p>The <code>NewSNPs</code> sublist contains information pertaining to the new significant multivariate associations found by <code>bmass</code>, if any were identified. Running <code>summary(bmassResults$NewSNPs)</code> you should see the following:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">summary</span>(bmassResults<span class="op">$</span>NewSNPs)</a>
+<a class="sourceLine" id="cb7-2" title="2">           Length Class      Mode   </a>
+<a class="sourceLine" id="cb7-3" title="3">SNPs         <span class="dv">30</span>   data.frame list   </a>
+<a class="sourceLine" id="cb7-4" title="4">logBFs     <span class="dv">5427</span>   <span class="op">-</span>none<span class="op">-</span><span class="st">     </span>numeric</a>
+<a class="sourceLine" id="cb7-5" title="5">Posteriors <span class="dv">5427</span>   <span class="op">-</span>none<span class="op">-</span><span class="st">     </span>numeric</a></code></pre></div>
+<p><code>bmassResults$NewSNPs$SNPs</code> contains the ‘main’ <code>bmass</code> output of interest – the list of new multivariate associations found by <code>bmass</code> and those SNPs’ related information. The format of this output appears as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">head</span>(bmassResults<span class="op">$</span>NewSNPs<span class="op">$</span>SNPs, <span class="dt">n=</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2">              ChrBP Chr        BP    Marker    MAF A1 HDL_A2 HDL_Direction</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="dv">1704</span>   <span class="dv">10</span>_<span class="dv">101902054</span>  <span class="dv">10</span> <span class="dv">101902054</span> rs2862954 <span class="fl">0.4631</span>  C      T             <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="dv">72106</span>    <span class="dv">10</span>_<span class="dv">5839619</span>  <span class="dv">10</span>   <span class="dv">5839619</span> rs2275774 <span class="fl">0.1781</span>  G      A             <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="dv">118903</span> <span class="dv">11</span>_<span class="dv">109521729</span>  <span class="dv">11</span> <span class="dv">109521729</span>  rs661171 <span class="fl">0.2876</span>  T      G             <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="st">       </span>HDL_pValue  HDL_N HDL_ZScore LDL_Direction LDL_pValue    LDL_N</a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="dv">1704</span>    <span class="fl">1.287e-06</span> <span class="dv">186893</span>   <span class="fl">4.841751</span>             <span class="op">+</span><span class="st">  </span><span class="fl">5.875e-01</span> <span class="fl">172821.0</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="dv">72106</span>   <span class="fl">7.601e-07</span> <span class="dv">179144</span>   <span class="fl">4.945343</span>             <span class="op">-</span><span class="st">  </span><span class="fl">7.773e-05</span> <span class="fl">165198.0</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="dv">118903</span>  <span class="fl">1.705e-06</span> <span class="dv">186946</span>   <span class="fl">4.785573</span>             <span class="op">+</span><span class="st">  </span><span class="fl">1.653e-02</span> <span class="fl">172877.9</span></a>
+<a class="sourceLine" id="cb8-10" title="10">       LDL_ZScore TG_Direction TG_pValue     TG_N TG_ZScore TC_Direction</a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="dv">1704</span>    <span class="fl">0.5424624</span>            <span class="op">+</span><span class="st">  </span><span class="fl">0.013930</span> <span class="fl">177587.1</span>  <span class="fl">2.459063</span>            <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="dv">72106</span>  <span class="fl">-3.9512933</span>            <span class="op">-</span><span class="st">  </span><span class="fl">0.001035</span> <span class="fl">169853.0</span> <span class="fl">-3.280836</span>            <span class="op">-</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="dv">118903</span>  <span class="fl">2.3969983</span>            <span class="op">-</span><span class="st">  </span><span class="fl">0.155800</span> <span class="fl">177645.0</span> <span class="fl">-1.419340</span>            <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="st">       </span>TC_pValue   TC_N TC_ZScore GWASannot   mvstat mvstat_log10pVal  unistat</a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="dv">1704</span>   <span class="fl">2.526e-04</span> <span class="dv">187083</span>  <span class="fl">3.659609</span>         <span class="dv">0</span> <span class="fl">48.70946</span>         <span class="fl">9.173067</span> <span class="fl">23.44255</span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="dv">72106</span>  <span class="fl">1.911e-02</span> <span class="dv">179333</span> <span class="fl">-2.343378</span>         <span class="dv">0</span> <span class="fl">38.26288</span>         <span class="fl">7.004804</span> <span class="fl">24.45642</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="dv">118903</span> <span class="fl">1.785e-05</span> <span class="dv">187131</span>  <span class="fl">4.290215</span>         <span class="dv">0</span> <span class="fl">37.84098</span>         <span class="fl">6.917765</span> <span class="fl">22.90171</span></a>
+<a class="sourceLine" id="cb8-18" title="18">       unistat_log10pVal     Nmin logBFWeightedAvg</a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="dv">1704</span>            <span class="fl">5.890421</span> <span class="fl">172821.0</span>         <span class="fl">7.068306</span></a>
+<a class="sourceLine" id="cb8-20" title="20"><span class="dv">72106</span>           <span class="fl">6.119129</span> <span class="fl">165198.0</span>         <span class="fl">5.447201</span></a>
+<a class="sourceLine" id="cb8-21" title="21"><span class="dv">118903</span>          <span class="fl">5.768276</span> <span class="fl">172877.9</span>         <span class="fl">5.438490</span></a></code></pre></div>
+<p><code>NewSNPs$logBFs</code> contains the log10 Bayes Factor (BF) for each multivariate model tested (in the form of a Model x SNP matrix, with the first columns of the matrix describing each model). <code>NewSNPs$Posteriors</code> is a similar matrix, just with each matrix entry representing the posterior probability for each model/SNP combination instead of the log10 BF.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">dim</span>(bmassResults<span class="op">$</span>NewSNPs<span class="op">$</span>logBFs)</a>
+<a class="sourceLine" id="cb9-2" title="2">[<span class="dv">1</span>] <span class="dv">81</span> <span class="dv">67</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="op">&gt;</span><span class="st"> </span>bmassResults<span class="op">$</span>NewSNPs<span class="op">$</span>logBFs[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a>
+<a class="sourceLine" id="cb9-4" title="4">     HDL LDL TG TC <span class="dv">10</span>_<span class="dv">101902054</span>   <span class="dv">10</span>_<span class="dv">5839619</span> <span class="dv">11</span>_<span class="dv">109521729</span>   <span class="dv">11</span>_<span class="dv">13313759</span></a>
+<a class="sourceLine" id="cb9-5" title="5">[<span class="dv">1</span>,]   <span class="dv">0</span>   <span class="dv">0</span>  <span class="dv">0</span>  <span class="dv">0</span>     <span class="fl">0.000000</span>    <span class="fl">0.0000000</span>    <span class="fl">0.0000000</span>    <span class="fl">0.00000000</span></a>
+<a class="sourceLine" id="cb9-6" title="6">[<span class="dv">2</span>,]   <span class="dv">1</span>   <span class="dv">0</span>  <span class="dv">0</span>  <span class="dv">0</span>  <span class="fl">-233.831047</span> <span class="fl">-235.0781367</span> <span class="fl">-234.6670299</span> <span class="fl">-234.15472067</span></a>
+<a class="sourceLine" id="cb9-7" title="7">[<span class="dv">3</span>,]   <span class="dv">2</span>   <span class="dv">0</span>  <span class="dv">0</span>  <span class="dv">0</span>     <span class="fl">0.000000</span>    <span class="fl">0.0000000</span>    <span class="fl">0.0000000</span>    <span class="fl">0.00000000</span></a>
+<a class="sourceLine" id="cb9-8" title="8">[<span class="dv">4</span>,]   <span class="dv">0</span>   <span class="dv">1</span>  <span class="dv">0</span>  <span class="dv">0</span>     <span class="fl">0.165855</span>    <span class="fl">0.3172489</span>   <span class="fl">-0.1100418</span>    <span class="fl">0.06393596</span></a>
+<a class="sourceLine" id="cb9-9" title="9">[<span class="dv">5</span>,]   <span class="dv">1</span>   <span class="dv">1</span>  <span class="dv">0</span>  <span class="dv">0</span>   <span class="fl">-64.774919</span>  <span class="fl">-66.2959645</span>  <span class="fl">-69.2388829</span>  <span class="fl">-69.93309528</span></a>
+<a class="sourceLine" id="cb9-10" title="10">       <span class="dv">11</span>_<span class="dv">45696596</span>   <span class="dv">11</span>_<span class="dv">47251202</span></a>
+<a class="sourceLine" id="cb9-11" title="11">[<span class="dv">1</span>,]    <span class="fl">0.00000000</span>    <span class="fl">0.00000000</span></a>
+<a class="sourceLine" id="cb9-12" title="12">[<span class="dv">2</span>,] <span class="fl">-231.68478695</span> <span class="fl">-219.10321932</span></a>
+<a class="sourceLine" id="cb9-13" title="13">[<span class="dv">3</span>,]    <span class="fl">0.00000000</span>    <span class="fl">0.00000000</span></a>
+<a class="sourceLine" id="cb9-14" title="14">[<span class="dv">4</span>,]   <span class="fl">-0.04838241</span>    <span class="fl">0.04997886</span></a>
+<a class="sourceLine" id="cb9-15" title="15">[<span class="dv">5</span>,]  <span class="fl">-65.59917325</span>  <span class="fl">-45.04269241</span></a></code></pre></div>
+</div>
+<div id="previoussnps" class="section level4">
+<h4>PreviousSNPs</h4>
+<p><code>PreviousSNPs</code> contains similar information as <code>NewSNPs</code> does, but pertaining to the set of previous univariate GWAS significant SNPs used to train the multivariate model priors and set the empirical significance threshold for weighted average BF. Running <code>summary(bmassResults$PreviousSNPs)</code> you see:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">summary</span>(bmassResults<span class="op">$</span>PreviousSNPs)</a>
+<a class="sourceLine" id="cb10-2" title="2">             Length Class      Mode   </a>
+<a class="sourceLine" id="cb10-3" title="3">logBFs       <span class="dv">12069</span>  <span class="op">-</span>none<span class="op">-</span><span class="st">     </span>numeric</a>
+<a class="sourceLine" id="cb10-4" title="4">SNPs            <span class="dv">30</span>  data.frame list   </a>
+<a class="sourceLine" id="cb10-5" title="5">DontPassSNPs    <span class="dv">30</span>  data.frame list   </a>
+<a class="sourceLine" id="cb10-6" title="6">Posteriors   <span class="dv">12069</span>  <span class="op">-</span>none<span class="op">-</span><span class="st">     </span>numeric</a></code></pre></div>
+<p><code>PreviousSNPs$SNPs</code>, <code>PreviousSNPs$logBFs</code>, and <code>PreviousSNPs$Posteriors</code> all match the descriptions as above with <code>NewSNPs</code>. However <code>PreviousSNPs$DontPassSNPs</code> refers to any GWAS SNPs which are included in the final publicaiton list but which do meet the original study’s univariate GWAS p-value threshold based on the dataset released. This can for instance occur when a final GWAS SNP list is produced from combining a discovery dataset with a replication dataset, and the former data is the only part of the study publicly released. Therefore <code>bmass</code> keeps track of these SNPs so as not to call them a completely novel multivariate SNP, but also to not use them to train the multivariate model priors since they do not technically reach univariate GWAS significance based on the dataset provided alone.</p>
+<p>The format of <code>DontPassSNPs</code> is the same seen in <code>NewSNPs$SNPs</code> and <code>PreviousSNPs$SNPs</code>.</p>
+</div>
+<div id="marginalsnps" class="section level4">
+<h4>MarginalSNPs</h4>
+<p><code>MarginalSNPs</code> contains the same information as <code>NewSNPs</code> and <code>PreviousSNPs</code>, but pertaining to the set of marginally significant SNPs extracted from the intermediate <code>MergedDataSources</code> dataset (a data.frame that contains all the input phenotype files combined) based on the <code>SNPMarginalUnivariateThreshold</code> and <code>SNPMarginalMultivariateThreshold</code> values (default of 1e-6 for each). <code>summary(bmassResults$MarginalSNPs)</code> returns:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">summary</span>(bmassResults<span class="op">$</span>MarginalSNPs)</a>
+<a class="sourceLine" id="cb11-2" title="2">           Length Class      Mode   </a>
+<a class="sourceLine" id="cb11-3" title="3">SNPs          <span class="dv">30</span>  data.frame list   </a>
+<a class="sourceLine" id="cb11-4" title="4">logBFs     <span class="dv">20493</span>  <span class="op">-</span>none<span class="op">-</span><span class="st">     </span>numeric</a>
+<a class="sourceLine" id="cb11-5" title="5">Posteriors <span class="dv">20493</span>  <span class="op">-</span>none<span class="op">-</span><span class="st">     </span>numeric</a></code></pre></div>
+<p><code>MarginalSNPs$SNPs</code>, <code>MarginalSNPs$logBFs</code>, and <code>MarginalSNPs$Posteriors</code> are all as described above.</p>
+</div>
+<div id="zscorescormatrix" class="section level4">
+<h4>ZScoresCorMatrix</h4>
+<p>This is the phenotype correlation matrix (V_0 hat in <code>Detailed Methods (Global Lipids Analysis)</code> of Stephens 2013 PLoS ONE) derived from extracting all the ‘null’ SNPs (abs(ZScore) &lt; 2 for every phenotype) in the dataset.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="op">&gt;</span><span class="st"> </span>bmassResults<span class="op">$</span>ZScoresCorMatrix</a>
+<a class="sourceLine" id="cb12-2" title="2">           HDL_ZScore LDL_ZScore  TG_ZScore TC_ZScore</a>
+<a class="sourceLine" id="cb12-3" title="3">HDL_ZScore  <span class="fl">1.0000000</span> <span class="fl">-0.0872789</span> <span class="fl">-0.3655508</span> <span class="fl">0.1523894</span></a>
+<a class="sourceLine" id="cb12-4" title="4">LDL_ZScore <span class="fl">-0.0872789</span>  <span class="fl">1.0000000</span>  <span class="fl">0.1607208</span> <span class="fl">0.8223175</span></a>
+<a class="sourceLine" id="cb12-5" title="5">TG_ZScore  <span class="fl">-0.3655508</span>  <span class="fl">0.1607208</span>  <span class="fl">1.0000000</span> <span class="fl">0.2892982</span></a>
+<a class="sourceLine" id="cb12-6" title="6">TC_ZScore   <span class="fl">0.1523894</span>  <span class="fl">0.8223175</span>  <span class="fl">0.2892982</span> <span class="fl">1.0000000</span></a></code></pre></div>
+</div>
+<div id="models" class="section level4">
+<h4>Models</h4>
+<p>This is a matrix displaying all the model combinations possible given the set of d input phenotypes and 3 model categories of directly associated (1), indirectly associated (2), and unassociated (0). The total number of models displayed should be 3^d.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">dim</span>(bmassResults<span class="op">$</span>Models)</a>
+<a class="sourceLine" id="cb13-2" title="2">[<span class="dv">1</span>] <span class="dv">81</span>  <span class="dv">4</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="op">&gt;</span><span class="st"> </span><span class="kw">head</span>(bmassResults<span class="op">$</span>Models)</a>
+<a class="sourceLine" id="cb13-4" title="4">     HDL LDL TG TC</a>
+<a class="sourceLine" id="cb13-5" title="5">[<span class="dv">1</span>,]   <span class="dv">0</span>   <span class="dv">0</span>  <span class="dv">0</span>  <span class="dv">0</span></a>
+<a class="sourceLine" id="cb13-6" title="6">[<span class="dv">2</span>,]   <span class="dv">1</span>   <span class="dv">0</span>  <span class="dv">0</span>  <span class="dv">0</span></a>
+<a class="sourceLine" id="cb13-7" title="7">[<span class="dv">3</span>,]   <span class="dv">2</span>   <span class="dv">0</span>  <span class="dv">0</span>  <span class="dv">0</span></a>
+<a class="sourceLine" id="cb13-8" title="8">[<span class="dv">4</span>,]   <span class="dv">0</span>   <span class="dv">1</span>  <span class="dv">0</span>  <span class="dv">0</span></a>
+<a class="sourceLine" id="cb13-9" title="9">[<span class="dv">5</span>,]   <span class="dv">1</span>   <span class="dv">1</span>  <span class="dv">0</span>  <span class="dv">0</span></a>
+<a class="sourceLine" id="cb13-10" title="10">[<span class="dv">6</span>,]   <span class="dv">2</span>   <span class="dv">1</span>  <span class="dv">0</span>  <span class="dv">0</span></a></code></pre></div>
+</div>
+<div id="modelpriors" class="section level4">
+<h4>ModelPriors</h4>
+<p>This is the set of trained priors determined for each multivariate model using the previous univariate GWAS SNPs and an EM algorithm (see eq. 36 in Stephens 2013). Note that for any model which does not contain at least one phenotype in the directly associated category, the prior was automatically set to 0 (aside from the global null model of all phenotypes set to unassociated).</p>
+<p>Also note that ModelPriors contains a full set of model priors for each value of the hyperparameter sigma_alpha (see “Prior on sigma_alpha” in Stephens 2013); these values are stored in <code>SigmaAlphas</code>, and by default are set to <code>c(0.005,0.0075,0.01,0.015,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,0.15)</code> (hence 81 models * 14 sigma_alphas = 1134 priors). To see a more interpretable form of the model priors, use the <code>GetModelPriorMatrix()</code> function as shown below.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">length</span>(bmassResults<span class="op">$</span>ModelPriors)</a>
+<a class="sourceLine" id="cb14-2" title="2">[<span class="dv">1</span>] <span class="dv">1134</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="op">&gt;</span><span class="st"> </span>bmassResults[<span class="kw">c</span>(<span class="st">&quot;ModelPriorMatrix&quot;</span>, <span class="st">&quot;LogFile&quot;</span>)] &lt;-<span class="st"> </span><span class="kw">GetModelPriorMatrix</span>(Phenotypes, bmassResults<span class="op">$</span>Models, bmassResults<span class="op">$</span>ModelPriors, bmassResults<span class="op">$</span>LogFile)</a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="op">&gt;</span><span class="st"> </span><span class="kw">head</span>(bmassResults<span class="op">$</span>ModelPriorMatrix)</a>
+<a class="sourceLine" id="cb14-5" title="5">  HDL LDL TG TC      Prior Cumm_Prior OrigOrder</a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="dv">1</span>   <span class="dv">1</span>   <span class="dv">2</span>  <span class="dv">1</span>  <span class="dv">1</span> <span class="fl">0.32744537</span>  <span class="fl">0.3274454</span>        <span class="dv">44</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="dv">2</span>   <span class="dv">1</span>   <span class="dv">2</span>  <span class="dv">2</span>  <span class="dv">1</span> <span class="fl">0.13788501</span>  <span class="fl">0.4653304</span>        <span class="dv">53</span></a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="dv">3</span>   <span class="dv">1</span>   <span class="dv">1</span>  <span class="dv">1</span>  <span class="dv">2</span> <span class="fl">0.11727440</span>  <span class="fl">0.5826048</span>        <span class="dv">68</span></a>
+<a class="sourceLine" id="cb14-9" title="9"><span class="dv">4</span>   <span class="dv">1</span>   <span class="dv">1</span>  <span class="dv">1</span>  <span class="dv">1</span> <span class="fl">0.07801825</span>  <span class="fl">0.6606230</span>        <span class="dv">41</span></a>
+<a class="sourceLine" id="cb14-10" title="10"><span class="dv">5</span>   <span class="dv">1</span>   <span class="dv">2</span>  <span class="dv">1</span>  <span class="dv">2</span> <span class="fl">0.06210658</span>  <span class="fl">0.7227296</span>        <span class="dv">71</span></a>
+<a class="sourceLine" id="cb14-11" title="11"><span class="dv">6</span>   <span class="dv">2</span>   <span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">2</span> <span class="fl">0.05698876</span>  <span class="fl">0.7797184</span>        <span class="dv">78</span></a></code></pre></div>
+<p><code>ModelPriorMatrix</code> contains the model descriptions as provided in <code>Models</code> along with the combined trained priors across each sigma_alpha value; the <code>ModelPriomatrix</code> is sorted by decreasing model prior value and also shows the cumulative distribution of the priors as well as the original order position of each model.</p>
+</div>
+<div id="gwaslogbfminthreshold" class="section level4">
+<h4>GWASlogBFMinThreshold</h4>
+<p>This is the empirical weighted average BF threshold (BFavg) used to determine whether any new SNPs are ‘multivariate significant’. As described in <a href="https://doi.org/10.1371/journal.pone.0065245">Stephens 2013</a>, each SNP has a single summary metric combining all the information across each multivariate model tested; this summary metric is the weighted average of each model’s BF, where weights are determined from the previous univariate GWAS SNPs (eq. 1 in <a href="https://www.biorxiv.org/">Turchin and Stephens 2019</a> or eq. 8 in <a href="https://doi.org/10.1371/journal.pone.0065245">Stephens 2013</a>). This summary metric is also calculated for the previous unviariate GWAS SNPs themselves, and the smallest BFavg among them becomes the threshold above which new SNPs are considered multivariate significant.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="op">&gt;</span><span class="st"> </span>bmassResults<span class="op">$</span>GWASlogBFMinThreshold</a>
+<a class="sourceLine" id="cb15-2" title="2">[<span class="dv">1</span>] <span class="fl">4.289906</span></a></code></pre></div>
+<p>So every new multivariate SNP <code>bmass</code> identifies in this <code>GlobalLipids2013</code> analysis has a BFavg value &gt;= 4.289906 (and is also more than a 1Mb window away from a previous univariate GWAS SNP).</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
